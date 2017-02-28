@@ -13,7 +13,7 @@ class TransactionView extends Component {
     const { transaction: { to, value, nonce, gasPrice, gasLimit } } = this.props;
     return <View>
       <Text style={ styles.small }>To address:</Text>
-      <Text>{ to }</Text>
+      <Text style={ { fontSize: 11 } }>{ to }</Text>
       <Text></Text>
       <Text style={ styles.small }>Amount:</Text>
       <Text>{ value }</Text>
@@ -39,13 +39,13 @@ export default class TransactionInfo extends Component {
   render() {
     const { transaction, onSubmit, onCancel } = this.props;
     return (
-      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'stretch', flexBasis: 400 }}>
+      <View>
         <Text style={styles.title}>Scanned transaction</Text>
         <View style={ { paddingTop: 5, borderBottomWidth: 0.5, borderBottomColor: '#000' } } />
         <ScrollView style={ styles.transactionContainer } >
           <TransactionView transaction={ transaction } />
         </ScrollView>
-        <View style={ { flexShrink: 1, flexDirection: 'row', flexBasis: 40, justifyContent: 'space-between'} }>
+        <View style={ { flexDirection: 'row', height: 40, justifyContent: 'space-between'} }>
           <Button
             style={{}}
             title="Dismiss"
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   transactionView: {
+    height: 300,
     flex: 1,
   },
   title: {

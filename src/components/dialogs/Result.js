@@ -10,12 +10,13 @@ export default class Result extends Component {
   };
 
   render() {
-    const { transaction, onSubmit } = this.props;
+    const { signedTx, onSubmit } = this.props;
     return (
-      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'stretch', flexBasis: 400, width: 290 }}>
-        <Text style={styles.title}>Result</Text>
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'stretch', flexBasis: 800, width: 250 }}>
+        <ScrollView style={ styles.transactionContainer } >
+          <Text style={styles.title}>{ signedTx }</Text>
+        </ScrollView>
         <View style={ { flexShrink: 1, marginTop: 5, marginBottom: 10, borderBottomWidth: 0.5, borderBottomColor: '#000' } } />
-        <Text style={ { flexGrow: 1}}>QR HERE</Text>
         <View style={ { flexShrink: 1, flexDirection: 'row',  height: 40, justifyContent: 'center'} }>
           <Button
             style={{}}

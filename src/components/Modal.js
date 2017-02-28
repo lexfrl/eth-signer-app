@@ -8,8 +8,9 @@ export default class Modal extends Component {
     const extraStyles = height ? { height } : {};
     return (
       <NativeModal
+        onRequestClose={() => {}}
         animationType={"fade"}
-        transparent={false}
+        transparent={true}
         { ...this.props }
       >
         <View style={[styles.container]}>
@@ -27,12 +28,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 1)',
   },
   innerContainer: {
     borderRadius: 10,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.97)',
     padding: 20,
   },
 });

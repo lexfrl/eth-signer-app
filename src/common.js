@@ -1,10 +1,9 @@
-// import util from 'ethereumjs-util';
+type TxData = Buffer | string;
+type RLP = Array<Buffer>;
+
 const EC = require('elliptic').ec;
 const keccak256 = require('js-sha3').keccak_256;
 const rlp = require('rlp');
-
-type TxData = Buffer | string;
-type RLP = Array<Buffer>;
 
 export const ec = new EC('secp256k1');
 
@@ -22,8 +21,8 @@ export function serialize(keys) {
 export function getTxFields(data) {
   const tx = decodeTransaction(data);
   return tx && {
-    'nonce': tx[0], 'gasPrice': tx[1], 'gasLimit': tx[2], 'to': tx[3].toString('hex'),
-    'value': tx[4], 'data': tx[5], 'v': tx[6], 'r': tx[7], 's': tx[8],
+    'nonce': parseRlpInt(tx[0]), 'gasPrice': parseRlpInt(tx[1]), 'gasLimit': parseRlpInt(tx[2]),
+    'to': toHex(tx[3]), 'value': parseRlpInt(tx[4]), 'data': toHex(tx[5]), 'v': toHex(tx[6]), 'r': toHex(tx[7]), 's': toHex(tx[8]),
   }
 }
 
@@ -51,7 +50,16 @@ export function sign (key, data: TxData): TxData {
   return rlp.encode(txDecoded);
 }
 
-export function hash (buffer) {
+export function fromPhrase(phrase) {
+  let seed = keccak256.array(phrase);
+  let kp;
+  for (let i = 0; i <= 16384 || !toAddress(kp = ec.keyFromPrivate(seed)).startsWith('00'); ++i)
+    seed = keccak256.array(seed);
+  return kp;
+}
+
+
+function hash (buffer) {
   return arrayBufferToBuffer(
     keccak256.arrayBuffer(bufferToArrayBuffer(buffer)));
 }
@@ -78,12 +86,14 @@ function bufferToArrayBuffer(buf) {
   return ab;
 }
 
-export function toAddress(kp) { return keccak256(kp.getPublic('buffer').slice(1)).substr(24); }
+function toAddress(kp) {
+  return keccak256(kp.getPublic('buffer').slice(1)).substr(24);
+}
 
-export function fromPhrase(phrase) {
-  let seed = keccak256.array(phrase);
-  let kp;
-  for (let i = 0; i <= 16384 || !toAddress(kp = ec.keyFromPrivate(seed)).startsWith('00'); ++i)
-    seed = keccak256.array(seed);
-  return kp;
+function parseRlpInt(buffer) {
+  return parseInt(buffer.reduce((r, i) => r + i.toString(16), ""), 16)
+}
+
+function toHex(buffer) {
+  return '0x' + buffer.toString('hex');
 }

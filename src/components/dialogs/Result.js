@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, Picker, Clipboard } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import qr from 'javascript-qrcode';
+import { QrCode } from 'javascript-qrcode';
 
 type Transaction = Object;
 
@@ -18,8 +18,7 @@ export default class Result extends Component {
 
   render() {
     const { signedTx, onSubmit } = this.props;
-    const { copied } = this.state;
-    const code = new qr.QrCode(signedTx);
+    const code = new QrCode(signedTx);
     const qzone = 5;
     const msize = 2;
     const { d, width, height } = genSvgPath(code.getData(), msize, qzone);

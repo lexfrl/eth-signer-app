@@ -25,7 +25,6 @@ const STORAGE_KEY = '@EthSigner:keys';
 export default class EthSigner extends React.Component {
   constructor(props) {
     super(props);
-    AsyncStorage.removeItem(STORAGE_KEY);
     this.camera = null;
     this.state = {
       keys: {},
@@ -88,7 +87,6 @@ export default class EthSigner extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     const { keys, transaction, mode, signedTx } = this.state;
     return (
       <View style={styles.container}>

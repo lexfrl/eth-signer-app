@@ -2,7 +2,7 @@
 
 EhtSigner is a dead simple app for signing Ethereum transactions. Usage step-by-step:
 
-1. Create a key+address to sign with (it will be)
+1. Create a key+address to sign with
 
 2. Use a camera to scan a transaction QR code
 

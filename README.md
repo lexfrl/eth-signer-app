@@ -12,6 +12,6 @@ EhtSigner is a dead simple app for signing Ethereum transactions. Usage step-by-
 
 5. Use a result of signing. You could either scan it with another device or copy it into the clipboard
 
-Video:
+### Video:
 
 ![Loading](https://github.com/fckt/eth-signer-app/raw/master/docs/preview.gif)

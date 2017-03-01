@@ -26,7 +26,7 @@ export default class Sign extends Component {
     const { keys, onSubmit, onCancel } = this.props;
     const { selectedAddress } = this.state;
     return (
-      <View>
+      <View style={{ alignSelf: "stretch" }}>
         <Text style={styles.title}>Sign with</Text>
         <View style={ { marginTop: 5, marginBottom: 10, borderBottomWidth: 0.5, borderBottomColor: '#000' } } />
         <Text>Select an address to sign the scanned transaction with a corresponding private key</Text>
@@ -39,11 +39,9 @@ export default class Sign extends Component {
         </Picker>
         <View style={ { flexShrink: 1, flexDirection: 'row', height: 40, justifyContent: 'space-between'} }>
           <Button
-            style={{}}
             title="Back"
             onPress={ onCancel }/>
           <Button
-            style={{}}
             title="Sign"
             onPress={ () => onSubmit(selectedAddress) } />
         </View>
@@ -53,23 +51,6 @@ export default class Sign extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  transactionContainer: {
-    flex: 1,
-    flexGrow: 1,
-  },
-  transactionView: {
-    flex: 1,
-  },
   title: {
     fontSize: 20,
   },

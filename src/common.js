@@ -1,9 +1,9 @@
+import rlp from 'rlp';
+import { keccak_256 as keccak256 } from 'js-sha3'
+import { ec as EC } from 'elliptic'
+
 type TxData = Buffer | string;
 type RLP = Array<Buffer>;
-
-const EC = require('elliptic').ec;
-const keccak256 = require('js-sha3').keccak_256;
-const rlp = require('rlp');
 
 export const ec = new EC('secp256k1');
 
@@ -17,7 +17,6 @@ export function serialize(keys) {
   return JSON.stringify(Object.keys(keys).map(k => keys[k].getPrivate('hex')));
 }
 
-// TODO: convert values
 export function getTxFields(data) {
   const tx = decodeTransaction(data);
   return tx && {
@@ -58,6 +57,9 @@ export function fromPhrase(phrase) {
   return kp;
 }
 
+export function toAddress(kp) {
+  return keccak256(kp.getPublic('buffer').slice(1)).substr(24);
+}
 
 function hash (buffer) {
   return arrayBufferToBuffer(
@@ -86,14 +88,10 @@ function bufferToArrayBuffer(buf) {
   return ab;
 }
 
-function toAddress(kp) {
-  return keccak256(kp.getPublic('buffer').slice(1)).substr(24);
-}
-
 function parseRlpInt(buffer) {
-  return parseInt(buffer.reduce((r, i) => r + i.toString(16), ""), 16)
+  return Buffer.isBuffer(buffer) ? parseInt(buffer.reduce((r, i) => r + i.toString(16), ""), 16) : buffer;
 }
 
 function toHex(buffer) {
-  return '0x' + buffer.toString('hex');
+  return Buffer.isBuffer(buffer) ? '0x' + buffer.toString('hex') : buffer;
 }

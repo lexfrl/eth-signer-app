@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, ScrollView, Button, Picker } from 'react-native';
-import Svg, { Path, Rect, Circle } from 'react-native-svg';
+import { StyleSheet, Text, View, Button, Picker, Clipboard } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 import qr from 'javascript-qrcode';
 
 type Transaction = Object;
 
 export default class Result extends Component {
+
+  constructor(props, context) {
+    super(props, context);
+  }
 
   props: {
     transaction: Transaction,
@@ -14,12 +18,13 @@ export default class Result extends Component {
 
   render() {
     const { signedTx, onSubmit } = this.props;
+    const { copied } = this.state;
     const code = new qr.QrCode(signedTx);
     const qzone = 5;
     const msize = 2;
-    const { d, width, height } = this.genSvgPath(code.getData(), msize, qzone);
+    const { d, width, height } = genSvgPath(code.getData(), msize, qzone);
     return (
-      <View style={{ }}>
+      <View>
         <Text style={styles.title}>Signed transaction</Text>
         <View style={ { flexShrink: 1, marginTop: 5, marginBottom: 10, borderBottomWidth: 0.5, borderBottomColor: '#000' } } />
         <View style={ { flexShrink: 1, flexDirection: 'row', justifyContent: 'center'} }>
@@ -27,31 +32,20 @@ export default class Result extends Component {
           <Path d={d} stroke="black" />
         </Svg>
         </View>
-
-        <View style={ { flexShrink: 1, flexDirection: 'row',  height: 40, justifyContent: 'center'} }>
+        <View style={ {} }>
+          <Button
+            style={{}}
+            title="Copy to clipboard"
+            onPress={ () => Clipboard.setString(signedTx) || this.setState({ copied: true }) }/>
+        </View>
+        <Text/>
+        <Text/>
           <Button
             style={{}}
             title="Done"
             onPress={ onSubmit }/>
-        </View>
       </View>
     );
-  }
-
-  genSvgPath(code, size = 3, quietZoneSize = 4) {
-    const width = code.length * size;
-    const height = code.length * size;
-    let r, c;
-    let d = '';
-
-    for (r = 0; r < code.length; r += 1) {
-      for (c = 0; c < code[r].length; c += 1) {
-        if (code[r][c] === 1) {
-          d += 'M' + ((c + quietZoneSize) * size) + ' ' + ((r + quietZoneSize) * size) + 'h' + size + 'v' + size + 'h-' + size + 'z';
-        }
-      }
-    }
-    return { d, width, height }
   }
 }
 
@@ -60,23 +54,23 @@ Result.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  transactionContainer: {
-    height: 200,
-  },
-  transactionView: {
-    flex: 1,
-  },
   title: {
     fontSize: 20,
   },
 });
+
+function genSvgPath(code, size = 3, quietZoneSize = 4) {
+  const width = code.length * size;
+  const height = code.length * size;
+  let r, c;
+  let d = '';
+
+  for (r = 0; r < code.length; ++r) {
+    for (c = 0; c < code[r].length; ++c) {
+      if (code[r][c] === 1) {
+        d += 'M' + ((c + quietZoneSize) * size) + ' ' + ((r + quietZoneSize) * size) + 'h' + size + 'v' + size + 'h-' + size + 'z';
+      }
+    }
+  }
+  return { d, width, height }
+}

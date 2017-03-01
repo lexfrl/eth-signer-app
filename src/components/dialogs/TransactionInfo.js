@@ -24,8 +24,6 @@ class TransactionView extends Component {
       <Text style={ styles.small }>Gas limit:</Text>
       <Text>{ gasLimit }</Text>
       <Text></Text>
-      <Text style={ styles.small }>Nonce:</Text>
-      <Text>{ nonce }</Text>
     </View>
   }
 }
@@ -41,11 +39,11 @@ export default class TransactionInfo extends Component {
     return (
       <View>
         <Text style={styles.title}>Scanned transaction</Text>
-        <View style={ { paddingTop: 5, borderBottomWidth: 0.5, borderBottomColor: '#000' } } />
-        <ScrollView style={ styles.transactionContainer } >
+        <View style={{ paddingTop: 5, borderBottomWidth: 0.5, borderBottomColor: '#000' }} />
+        <ScrollView style={{ marginTop: 10, flex: 1,flexGrow: 1}} >
           <TransactionView transaction={ transaction } />
         </ScrollView>
-        <View style={ { flexDirection: 'row', height: 40, justifyContent: 'space-between'} }>
+        <View style={{ flexDirection: 'row', height: 40, justifyContent: 'space-between'}}>
           <Button
             style={{}}
             title="Dismiss"
@@ -61,25 +59,6 @@ export default class TransactionInfo extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  transactionContainer: {
-    marginTop: 10,
-    flex: 1,
-    flexGrow: 1,
-  },
-  transactionView: {
-    height: 300,
-    flex: 1,
-  },
   title: {
     fontSize: 20,
   },

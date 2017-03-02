@@ -34,7 +34,7 @@ export default class Sign extends Component {
           selectedValue={ selectedAddress }
           onValueChange={(value) => this.setState({selectedAddress: value})}>
           { Object.keys(keys).map((address) =>
-            <Picker.Item key={ address } label={ address } value={ address } />
+            <Picker.Item key={ address } label={ '0x' + address } value={ address } />
           ) }
         </Picker>
         <View style={ { flexShrink: 1, flexDirection: 'row', height: 40, justifyContent: 'space-between'} }>

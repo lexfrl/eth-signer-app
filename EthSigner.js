@@ -50,7 +50,6 @@ export default class EthSigner extends React.Component {
         this.setMode('key_add');
       }
     }).catch((error) => {
-      debugger;
       this.setMode('error', { error: error, errorText: error.message });
     });
 

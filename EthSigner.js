@@ -44,14 +44,14 @@ export default class EthSigner extends React.Component {
       if (storage !== null) {
         const keys = unserialize(storage);
         if (Object.keys(keys).length) {
-          this.setState({ mode: 'read', keys});
+          this.setMode('read', { keys });
         }
       } else {
-        this.setState({ mode: 'key_add' });
+        this.setMode('key_add');
       }
     }).catch((error) => {
       debugger;
-      this.setState({ mode: 'error', error: error, errorText: error.message});
+      this.setMode('error', { error: error, errorText: error.message });
     });
 
   }
@@ -61,12 +61,12 @@ export default class EthSigner extends React.Component {
   }
 
   addKey(phrase) {
-    this.setState({ mode: 'loading' });
+    this.setMode('loading');
     const keys = this.state.keys;
     const key = fromPhrase(phrase)
     keys[toAddress(key)] = key;
     AsyncStorage.setItem(STORAGE_KEY, serialize(keys), () => {
-      this.setState({ keys, mode: 'read' });
+      this.setMode('read', { keys });
     })
   }
 
@@ -76,7 +76,7 @@ export default class EthSigner extends React.Component {
     }
     const transaction = decodeTransaction(data);
     if (transaction) {
-      this.setState({transaction: data, mode: 'preview'});
+      this.setMode('preview', { transaction: data });
     }
   }
 
